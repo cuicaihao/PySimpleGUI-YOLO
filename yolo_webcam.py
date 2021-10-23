@@ -22,7 +22,8 @@ sg.theme('LightGreen')
 
 gui_confidence = .5     # initial settings
 gui_threshold = .3      # initial settings
-camera_number = 0       # if you have more than 1 camera, change this variable to choose which is used
+# if you have more than 1 camera, change this variable to choose which is used
+camera_number = 0
 
 # load the COCO class labels our YOLO model was trained on
 labelsPath = os.path.sep.join([y_path, "coco.names"])
@@ -38,7 +39,8 @@ configPath = os.path.sep.join([y_path, "yolov3.cfg"])
 
 # load our YOLO object detector trained on COCO dataset (80 classes)
 # and determine only the *output* layer names that we need from YOLO
-sg.popup_quick_message('Loading YOLO weights from disk.... one moment...', background_color='red', text_color='white')
+sg.popup_quick_message('Loading YOLO weights from disk.... one moment...',
+                       background_color='red', text_color='white')
 
 net = cv2.dnn.readNetFromDarknet(configPath, weightsPath)
 ln = net.getLayerNames()
@@ -135,12 +137,14 @@ while True:
             [sg.Text('Yolo Playback in PySimpleGUI Window', size=(30, 1))],
             [sg.Image(data=imgbytes, key='_IMAGE_')],
             [sg.Text('Confidence'),
-             sg.Slider(range=(0, 10), orientation='h', resolution=1, default_value=5, size=(15, 15), key='confidence'),
+             sg.Slider(range=(0, 10), orientation='h', resolution=1,
+                       default_value=5, size=(15, 15), key='confidence'),
              sg.Text('Threshold'),
              sg.Slider(range=(0, 10), orientation='h', resolution=1, default_value=3, size=(15, 15), key='threshold')],
             [sg.Exit()]
         ]
-        win = sg.Window('YOLO Webcam Demo', layout, default_element_size=(14, 1), text_justification='right', auto_size_text=False, finalize=True)
+        win = sg.Window('YOLO Webcam Demo', layout, default_element_size=(
+            14, 1), text_justification='right', auto_size_text=False, finalize=True)
         image_elem = win['_IMAGE_']
     else:
         image_elem.update(data=imgbytes)
